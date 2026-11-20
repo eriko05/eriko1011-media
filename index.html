@@ -117,7 +117,11 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
 .player audio{width:100%}
 .mbody{padding:16px 20px 22px}
 .mbody h2{margin:8px 0;font-size:1.25rem;line-height:1.5}
-.mbody p{margin:0;color:var(--muted);white-space:pre-wrap}
+.mbody p{margin:0;color:var(--text);white-space:pre-wrap;line-height:1.9}
+.mbody p strong{color:var(--pink)}
+.note{margin:16px 0 0;background:#fffbe8;border:1px solid #f1dc8a;border-radius:10px;padding:10px 14px;font-size:.88rem;line-height:1.7}
+.note b{display:block;color:#8a6a00;margin-bottom:2px}
+.note[hidden]{display:none}
 .close{position:absolute;top:14px;right:18px;background:#fff;border:0;width:40px;height:40px;border-radius:50%;font-size:1.4rem;cursor:pointer}
 </style>
 </head>
@@ -161,6 +165,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
       <span class="tag" id="m-cat"></span>
       <h2 id="m-title"></h2>
       <p id="m-desc"></p>
+      <div class="note" id="m-note" hidden><b>⚠ ご注意</b><span id="m-note-text"></span></div>
     </div>
   </div>
 </div>
@@ -182,7 +187,8 @@ const ITEMS = [
   { title:"恋愛を壊す本当の原因",
     category:"恋愛", type:"動画", duration:"", featured:true,
     kicker:"まさか私も…？", catch:"恋愛を**壊す**\n本当の原因",
-    desc:"うまくいかない恋愛の奥には、自分でも気づいていない心のパターンがあります。恋愛を壊してしまう本当の原因を、深層心理の視点からわかりやすく解説します。",
+    desc:"「価値観が合わないから、恋愛がうまくいかない」\n\n本当に、そうでしょうか？\n\n実は、恋愛を苦しくしているのは「価値観」そのものではありません。\n\nなぜ、好きなのに不安になるのか？\nなぜ、同じような恋愛を繰り返してしまうのか？\n\nその背景にある、あなた自身も気づいていない\n**「心の仕組み」**を紐解きます。\n\n「もう同じ恋愛を繰り返したくない」\nそんな方は、ぜひ最後までご覧ください。",
+    note:"中野プロが途中「中のプロ」と呼ばれていますが、正しくは中野プロです。参考バラエティー番組は『時計仕掛けのマリッジ』です。",
     url:"https://youtu.be/MtpCGvljZiA", thumb:"images/thumb-renai-kowasu.jpg" },
   { title:"夫婦のすれ違いはどこから始まる？ 「言わなくてもわかって」の正体",
     category:"夫婦関係", type:"動画", duration:"9:45",
@@ -228,6 +234,9 @@ const RANKING = [0, 1, 3, 2, 4];
     return {kind:"video", src:url};
   }
   // サムネイルの文字：**ここ** が強調色＋マーカー、改行は \n
+  // 説明文：一覧では ** を外し、動画を開いたときは **ここ** を太字にする
+  const plain = t => esc(String(t ?? "").replace(/\*\*/g,""));
+  const rich = t => esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
   const fmt = t => esc(t).replace(/\*\*(.+?)\*\*/g,"<em>$1</em>").replace(/\n/g,"<br>");
   // いちばん長い行が枠に収まるよう文字サイズを自動調整
   const fs = t => { const ls = t.replace(/\*\*/g,"").split("\n");
@@ -264,7 +273,7 @@ const RANKING = [0, 1, 3, 2, 4];
     $("#hero").innerHTML = `
       <article class="feat" tabindex="0" data-i="${fi}">
         ${thumbHTML(f)}
-        <div class="body">${meta(f)}<h2>${esc(f.title)}</h2><p>${esc(f.desc)}</p></div>
+        <div class="body">${meta(f)}<h2>${esc(f.title)}</h2><p>${plain(f.desc)}</p></div>
       </article>
       <aside class="side">
         <h3>よく見られている動画</h3>
@@ -281,7 +290,7 @@ const RANKING = [0, 1, 3, 2, 4];
     $("#grid").innerHTML = list.length ? list.map(({it,i})=>`
       <article class="card" tabindex="0" data-i="${i}">
         ${thumbHTML(it)}
-        <div class="body">${meta(it)}<h4>${esc(it.title)}</h4><p>${esc(it.desc)}</p></div>
+        <div class="body">${meta(it)}<h4>${esc(it.title)}</h4><p>${plain(it.desc)}</p></div>
       </article>`).join("") : `<p class="empty">該当する動画が見つかりませんでした。</p>`;
   }
 
@@ -298,7 +307,9 @@ const RANKING = [0, 1, 3, 2, 4];
     else player.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#f9c6da,#e6337f);font-weight:700">この動画は準備中です</div>`;
     $("#m-cat").textContent = it.category;
     $("#m-title").textContent = it.title;
-    $("#m-desc").textContent = it.desc || "";
+    $("#m-desc").innerHTML = rich(it.desc || "");
+    $("#m-note").hidden = !it.note;
+    $("#m-note-text").textContent = it.note || "";
     lastFocus = document.activeElement;
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
