@@ -34,7 +34,7 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 @media(max-width:640px){.hd-cta{display:none}.logo{font-size:.95rem}}
 
 /* category nav */
-.cats{background:#fff;border-bottom:1px solid var(--line)}
+.cats{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:64px;z-index:15}
 .cats ul{display:flex;gap:4px;list-style:none;margin:0 auto;padding:0 16px;max-width:1120px;overflow-x:auto;scrollbar-width:none}
 .cats ul::-webkit-scrollbar{display:none}
 .cats button{border:0;background:none;padding:12px 14px;font:inherit;font-size:.92rem;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent}
@@ -269,6 +269,9 @@ const RANKING = [1, 2, 4, 3, 5];
     cur = b.dataset.c;
     document.querySelectorAll("#cats button").forEach(x=>x.setAttribute("aria-pressed", x===b));
     renderGrid();
+    // 絞り込んだ一覧の先頭が見えるように移動
+    const top = document.querySelector("main").getBoundingClientRect().top + scrollY - document.querySelector("header").offsetHeight - document.querySelector(".cats").offsetHeight;
+    if(scrollY > top) scrollTo({top, behavior:"smooth"});
   });
   $("#q").addEventListener("input", e=>{ q = e.target.value.trim(); renderGrid(); });
 
@@ -288,6 +291,8 @@ const RANKING = [1, 2, 4, 3, 5];
       </aside>`;
   }
   function renderGrid(){
+    // カテゴリを選んだときや検索中は、大きい枠とランキングを隠して結果だけを見せる
+    $("#hero").style.display = (cur==="すべて" && !q) ? "" : "none";
     const list = ITEMS.map((it,i)=>({it,i})).filter(({it})=>
       (cur==="すべて" || it.category===cur) &&
       (!q || (it.title+it.desc+it.category).toLowerCase().includes(q.toLowerCase())));
