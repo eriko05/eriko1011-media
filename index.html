@@ -183,7 +183,7 @@ const ITEMS = [
     category:"恋愛", type:"動画", duration:"", featured:true,
     kicker:"まさか私も…？", catch:"恋愛を**壊す**\n本当の原因",
     desc:"うまくいかない恋愛の奥には、自分でも気づいていない心のパターンがあります。恋愛を壊してしまう本当の原因を、深層心理の視点からわかりやすく解説します。",
-    url:"https://youtu.be/MtpCGvljZiA" },
+    url:"https://youtu.be/MtpCGvljZiA", thumb:"images/thumb-renai-kowasu.jpg" },
   { title:"夫婦のすれ違いはどこから始まる？ 「言わなくてもわかって」の正体",
     category:"夫婦関係", type:"動画", duration:"9:45",
     kicker:"夫婦のすれ違い", catch:"「言わなくても\n**わかって**」が\n危ない理由",
@@ -238,7 +238,7 @@ const RANKING = [0, 1, 3, 2, 4];
     const label = it.url ? (it.duration || (audio ? "音声" : "動画")) : "準備中";
     const badge = `<span class="badge${audio?" audio":""}">${esc(label)}</span>`;
     const play = `<span class="play" aria-hidden="true"></span>`;
-    if(it.thumb) return `<div class="thumb"><img class="bg" src="${esc(it.thumb)}" alt="" loading="lazy">${play}${badge}</div>`;
+    if(it.thumb) return `<div class="thumb"><img class="bg" src="${esc(it.thumb)}" alt="" loading="lazy">${play}${it.url ? "" : badge}</div>`;
     return `<div class="thumb" data-cat="${esc(it.category)}" aria-hidden="true">
       <span class="face"></span>
       <div class="copy">${it.kicker?`<span class="kicker">${esc(it.kicker)}</span>`:""}<p class="catch" style="--fs:${fs(it.catch || it.title)}cqw">${fmt(it.catch || it.title)}</p></div>
