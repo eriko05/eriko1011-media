@@ -45,7 +45,7 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 .feat{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer}
 .feat .body{padding:16px 20px 20px}
 .feat h2{margin:6px 0 6px;font-size:1.35rem;line-height:1.5}
-.feat p{margin:0;color:var(--muted);font-size:.93rem}
+.feat p{margin:0;color:var(--muted);font-size:.93rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .side h3,.sec-h{font-size:1.1rem;margin:0 0 12px;display:flex;align-items:center;gap:8px}
 .side h3::before,.sec-h::before{content:"";width:4px;height:1.1em;background:var(--pink);border-radius:2px}
 .rank{list-style:none;margin:0;padding:0;display:grid;gap:10px}
@@ -85,6 +85,19 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 .thumb .play::after{content:"";border-left:5.4cqw solid #fff;border-top:3.4cqw solid transparent;border-bottom:3.4cqw solid transparent;margin-left:1.4cqw}
 .card:hover .thumb .play,.feat:hover .thumb .play,.rank li:hover .thumb .play,[data-i]:focus-visible .thumb .play{opacity:1;transform:scale(1)}
 @media(hover:none){.thumb .play{display:none}}
+/* 番号・NEW・カテゴリ色 */
+.marks{position:absolute;top:2.4cqw;right:2.4cqw;display:flex;gap:1.4cqw;z-index:2}
+.marks span{font-family:system-ui,sans-serif;font-weight:800;line-height:1;border-radius:99cqw;padding:1.4cqw 2.4cqw;font-size:max(3.6cqw,10px);box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.18)}
+.marks .ep{background:rgba(255,255,255,.95);color:#333}
+.marks .new{background:#ff3b30;color:#fff;letter-spacing:.06em}
+.rank .marks{display:none}
+article[data-cat]{border-top:4px solid var(--cc,#e6337f)}
+[data-cat="恋愛"]{--cc:#e6337f;--cs:#fff1f6}
+[data-cat="夫婦関係"]{--cc:#e8572f;--cs:#fff2ec}
+[data-cat="自己理解"]{--cc:#7b4fd6;--cs:#f3eeff}
+[data-cat="セッション紹介"]{--cc:#14946a;--cs:#e9f8f2}
+.tag[data-cat]{color:var(--cc);background:var(--cs)}
+.cats button[data-c]:not([data-c="すべて"])::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;background:var(--cc,#ccc)}
 .tag{display:inline-block;font-size:.75rem;color:var(--pink);background:var(--pink-soft);padding:2px 10px;border-radius:999px;font-weight:700}
 .type{display:inline-block;font-size:.72rem;color:var(--muted);border:1px solid var(--line);padding:1px 8px;border-radius:999px;margin-left:6px}
 
@@ -123,6 +136,16 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
 .note b{display:block;color:#8a6a00;margin-bottom:2px}
 .note[hidden]{display:none}
 .close{position:absolute;top:14px;right:18px;background:#fff;border:0;width:40px;height:40px;border-radius:50%;font-size:1.4rem;cursor:pointer}
+/* スマホでは2列（最後に置いて上書き） */
+@media(max-width:640px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{border-radius:10px}
+  .card .body{padding:8px 10px 12px;gap:4px}
+  .card h4{font-size:.84rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .card p{display:none}
+  .card .tag{font-size:.68rem;padding:1px 8px}
+  .card .type{display:none}
+}
 </style>
 </head>
 <body>
@@ -182,15 +205,17 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
    サムネイルは kicker（左上の小さい札）と catch（大きい文字）から自動で作ります。
      catch の **ここ** は強調色＋黄色マーカー、\n は改行です（1行7文字前後・3行までがきれいです）。
    自分で作った画像を使いたいときは thumb:"画像のURL" を入れてください。
+   added:"2026-11-20" のように追加した日を入れると、14日間「NEW」が付きます。
+   url が入っている動画には、古い順に #01, #02 … の番号が自動で付きます（新しい動画はリストの一番上に追加）。
    ========================================================= */
 const ITEMS = [
   { title:"「思考が現実化する」って、本当？",
-    category:"自己理解", type:"動画", duration:"",
+    category:"自己理解", type:"動画", duration:"", added:"2026-11-20",
     kicker:"よく聞くけど…", catch:"「思考が\n**現実化**する」\nって本当？",
     desc:"「思考が現実化する」と言われるけど、\n\n願っているのに、なぜ現実は変わらないのでしょう？\n\n実は、現実を動かしているのは\n「頭で考えていること」だけではありません。\n\n無意識の信念、物事の意味づけ、感情、行動。\nそして、相手との相互作用。\n\nこの動画では、\n「思考が現実化する」という現象を\n心理学的な視点から、その仕組みを紐解きます。\n\n「願っているのに、なぜか同じ現実を繰り返す」\n\nそんな方は、ぜひ見てみてください。",
     url:"https://youtu.be/iP4mTyXjohw", thumb:"images/thumb-shikou-genjitsuka.jpg" },
   { title:"恋愛を本当に壊すのは価値観じゃなくて、○○？！",
-    category:"恋愛", type:"動画", duration:"", featured:true,
+    category:"恋愛", type:"動画", duration:"", featured:true, added:"2026-11-20",
     kicker:"まさか私も…？", catch:"恋愛を**壊す**\n本当の原因",
     desc:"「価値観が合わないから、恋愛がうまくいかない」\n\n本当に、そうでしょうか？\n\n実は、恋愛を苦しくしているのは「価値観」そのものではありません。\n\nなぜ、好きなのに不安になるのか？\nなぜ、同じような恋愛を繰り返してしまうのか？\n\nその背景にある、あなた自身も気づいていない\n**「心の仕組み」**を紐解きます。\n\n「もう同じ恋愛を繰り返したくない」\nそんな方は、ぜひ最後までご覧ください。",
     note:"中野プロが途中「中のプロ」と呼ばれていますが、正しくは中野プロです。参考バラエティー番組は『時計仕掛けのマリッジ』です。",
@@ -247,23 +272,28 @@ const RANKING = [1, 2, 4, 3, 5];
   const fs = t => { const ls = t.replace(/\*\*/g,"").split("\n");
     const max = Math.max(...ls.map(l=>[...l].length));
     return Math.min(ls.length>=3 ? 7.4 : 8.6, 56/max).toFixed(2); };
+  // 番号：URLが入っている動画に、古い順に #01, #02 … と付ける
+  const EP = new Map(); ITEMS.filter(i=>i.url).reverse().forEach((it,n)=>EP.set(it, n+1));
+  // NEW：added（追加した日）から14日間表示
+  const isNew = it => it.added && (Date.now() - new Date(it.added+"T00:00:00+09:00")) < 14*864e5;
+  const marks = it => (EP.has(it)||isNew(it)) ? `<div class="marks">${isNew(it)?'<span class="new">NEW</span>':""}${EP.has(it)?`<span class="ep">#${String(EP.get(it)).padStart(2,"0")}</span>`:""}</div>` : "";
   function thumbHTML(it){
     const audio = it.type==="音声";
     const label = it.url ? (it.duration || (audio ? "音声" : "動画")) : "準備中";
     const badge = `<span class="badge${audio?" audio":""}">${esc(label)}</span>`;
     const play = `<span class="play" aria-hidden="true"></span>`;
-    if(it.thumb) return `<div class="thumb"><img class="bg" src="${esc(it.thumb)}" alt="" loading="lazy">${play}${it.url ? "" : badge}</div>`;
+    if(it.thumb) return `<div class="thumb"><img class="bg" src="${esc(it.thumb)}" alt="" loading="lazy">${marks(it)}${play}${it.url ? "" : badge}</div>`;
     return `<div class="thumb" data-cat="${esc(it.category)}" aria-hidden="true">
       <span class="face"></span>
       <div class="copy">${it.kicker?`<span class="kicker">${esc(it.kicker)}</span>`:""}<p class="catch" style="--fs:${fs(it.catch || it.title)}cqw">${fmt(it.catch || it.title)}</p></div>
-      ${play}${badge}</div>`;
+      ${marks(it)}${play}${badge}</div>`;
   }
-  const meta = it => `<div><span class="tag">${esc(it.category)}</span><span class="type">${esc(it.type)}</span></div>`;
+  const meta = it => `<div><span class="tag" data-cat="${esc(it.category)}">${esc(it.category)}</span><span class="type">${esc(it.type)}</span></div>`;
 
   const cats = ["すべて", ...new Set(ITEMS.map(i=>i.category))];
   let cur = "すべて", q = "";
 
-  $("#cats").innerHTML = cats.map(c=>`<li><button data-c="${esc(c)}" aria-pressed="${c===cur}">${esc(c)}</button></li>`).join("");
+  $("#cats").innerHTML = cats.map(c=>`<li><button data-c="${esc(c)}" data-cat="${esc(c)}" aria-pressed="${c===cur}">${esc(c)}</button></li>`).join("");
   $("#cats").addEventListener("click", e=>{
     const b = e.target.closest("button"); if(!b) return;
     cur = b.dataset.c;
@@ -279,7 +309,7 @@ const RANKING = [1, 2, 4, 3, 5];
     const fi = Math.max(0, ITEMS.findIndex(i=>i.featured));
     const f = ITEMS[fi];
     $("#hero").innerHTML = `
-      <article class="feat" tabindex="0" data-i="${fi}">
+      <article class="feat" tabindex="0" data-i="${fi}" data-cat="${esc(f.category)}">
         ${thumbHTML(f)}
         <div class="body">${meta(f)}<h2>${esc(f.title)}</h2><p>${plain(f.desc)}</p></div>
       </article>
@@ -298,7 +328,7 @@ const RANKING = [1, 2, 4, 3, 5];
       (!q || (it.title+it.desc+it.category).toLowerCase().includes(q.toLowerCase())));
     $("#list-title").textContent = q ? `「${q}」の検索結果` : (cur==="すべて" ? "新着" : cur);
     $("#grid").innerHTML = list.length ? list.map(({it,i})=>`
-      <article class="card" tabindex="0" data-i="${i}">
+      <article class="card" tabindex="0" data-i="${i}" data-cat="${esc(it.category)}">
         ${thumbHTML(it)}
         <div class="body">${meta(it)}<h4>${esc(it.title)}</h4><p>${plain(it.desc)}</p></div>
       </article>`).join("") : `<p class="empty">該当する動画が見つかりませんでした。</p>`;
