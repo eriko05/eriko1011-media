@@ -169,9 +169,19 @@
     .hero img,.cta,.cta::after,.changes li::before{animation:none}
     .js .step:not(.is-in) .step-num{transform:none}
   }
+  /* 動画ライブラリへのリンク */
+  .lib-bar{background:#fff;border-bottom:1px solid var(--pink-line)}
+  .lib-bar a{display:block;max-width:680px;margin:0 auto;padding:10px 16px;color:var(--pink);font-weight:700;font-size:.9rem;text-decoration:none}
+  .lib-bar a:hover{text-decoration:underline}
+  .lib-box{max-width:560px;margin:0 auto;background:var(--pink-soft);border:2px solid var(--pink-line);border-radius:16px;padding:24px 20px;text-align:center}
+  .lib-box p{margin:0 0 4px}
+  .lib-box .cta,.lib-box .cta::after{animation:none}
+  .lib-box .cta::after{display:none}
+  .lib-box .cta{margin:16px auto 0;background:#fff;color:var(--pink);box-shadow:0 4px 0 var(--pink-line);border:2px solid var(--pink)}
 </style>
 </head>
 <body>
+<nav class="lib-bar"><a href="../">← 学びの動画ライブラリへ</a></nav>
 
 <!-- ========== HERO ========== -->
 <header class="hero">
@@ -604,6 +614,16 @@
   </div>
 </section>
 </main>
+
+<section>
+  <div class="wrap">
+    <div class="lib-box">
+      <p><b>申し込む前に、まずは動画で知りたい方へ</b></p>
+      <p>恋愛や夫婦関係の悩みの奥にある心のしくみを、動画でわかりやすく解説しています。</p>
+      <a class="cta" href="../">学びの動画ライブラリを見る</a>
+    </div>
+  </div>
+</section>
 
 <footer>© 2023-2026 長田絵里子</footer>
 
