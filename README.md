@@ -1,12 +1,12 @@
 # 体験セッション募集ページ（ペライチからの移行版）
 
 ## ファイル構成
-- index.html … 体験セッションのページ（トップページ）
-- media/index.html … 学びの動画ライブラリ（`/media/` で開くページ）
+- index.html … 学びの動画ライブラリ（トップページ）
+- session/index.html … 体験セッションのページ（`/session/` で開くページ）
 - images/ … 画像（Web用に軽くしたもの）
 
 ## 動画の追加・変更
-`media/index.html` の中ほどにある `const ITEMS = [` のリストを書き換えます。
+`index.html` の中ほどにある `const ITEMS = [` のリストを書き換えます。
 - `url`：YouTube のURL（「限定公開」か「公開」にする）、Googleドライブの共有URL など
 - `title`・`category`・`desc`：タイトル、カテゴリ、説明文
 - `kicker`・`catch`：サムネイルの左上の札と大きい文字（`**ここ**` が強調、`\n` が改行）
