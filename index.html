@@ -132,6 +132,10 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
 .mbody h2{margin:8px 0;font-size:1.25rem;line-height:1.5}
 .mbody p{margin:0;color:var(--text);white-space:pre-wrap;line-height:1.9}
 .mbody p strong{color:var(--pink)}
+.doc-btn{display:inline-flex;align-items:center;gap:8px;margin:4px 0 16px;background:#fff;color:var(--pink);border:2px solid var(--pink);font-weight:700;padding:10px 18px;border-radius:999px;text-decoration:none}
+.doc-btn:hover{background:var(--pink-soft)}
+.doc-btn[hidden]{display:none}
+.has-doc{display:inline-block;font-size:.72rem;color:#8a6a00;background:#fff7d6;border:1px solid #f1dc8a;padding:1px 8px;border-radius:999px;margin-left:6px;font-weight:700}
 .note{margin:16px 0 0;background:#fffbe8;border:1px solid #f1dc8a;border-radius:10px;padding:10px 14px;font-size:.88rem;line-height:1.7}
 .note b{display:block;color:#8a6a00;margin-bottom:2px}
 .note[hidden]{display:none}
@@ -187,6 +191,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
     <div class="mbody">
       <span class="tag" id="m-cat"></span>
       <h2 id="m-title"></h2>
+      <a class="doc-btn" id="m-doc" href="#" target="_blank" rel="noopener" hidden>📄 資料（PDF）を見る</a>
       <p id="m-desc"></p>
       <div class="note" id="m-note" hidden><b>⚠ ご注意</b><span id="m-note-text"></span></div>
     </div>
@@ -205,6 +210,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
    サムネイルは kicker（左上の小さい札）と catch（大きい文字）から自動で作ります。
      catch の **ここ** は強調色＋黄色マーカー、\n は改行です（1行7文字前後・3行までがきれいです）。
    自分で作った画像を使いたいときは thumb:"画像のURL" を入れてください。
+   pdf:"docs/ファイル名.pdf" を入れると、動画を開いた画面に「資料（PDF）を見る」ボタンが出ます（PDFは docs フォルダに置く）。
    added:"2026-11-20" のように追加した日を入れると、14日間「NEW」が付きます。
    url が入っている動画には、古い順に #01, #02 … の番号が自動で付きます（新しい動画はリストの一番上に追加）。
    ========================================================= */
@@ -213,6 +219,7 @@ const ITEMS = [
     category:"自己理解", type:"動画", duration:"", added:"2026-11-20",
     kicker:"よく聞くけど…", catch:"「思考が\n**現実化**する」\nって本当？",
     desc:"「思考が現実化する」と言われるけど、\n\n願っているのに、なぜ現実は変わらないのでしょう？\n\n実は、現実を動かしているのは\n「頭で考えていること」だけではありません。\n\n無意識の信念、物事の意味づけ、感情、行動。\nそして、相手との相互作用。\n\nこの動画では、\n「思考が現実化する」という現象を\n心理学的な視点から、その仕組みを紐解きます。\n\n「願っているのに、なぜか同じ現実を繰り返す」\n\nそんな方は、ぜひ見てみてください。",
+    pdf:"docs/shikou-genjitsuka.pdf",
     url:"https://youtu.be/iP4mTyXjohw", thumb:"images/thumb-shikou-genjitsuka.jpg" },
   { title:"恋愛を本当に壊すのは価値観じゃなくて、○○？！",
     category:"恋愛", type:"動画", duration:"", featured:true, added:"2026-11-20",
@@ -288,7 +295,7 @@ const RANKING = [1, 2, 4, 3, 5];
       <div class="copy">${it.kicker?`<span class="kicker">${esc(it.kicker)}</span>`:""}<p class="catch" style="--fs:${fs(it.catch || it.title)}cqw">${fmt(it.catch || it.title)}</p></div>
       ${marks(it)}${play}${badge}</div>`;
   }
-  const meta = it => `<div><span class="tag" data-cat="${esc(it.category)}">${esc(it.category)}</span><span class="type">${esc(it.type)}</span></div>`;
+  const meta = it => `<div><span class="tag" data-cat="${esc(it.category)}">${esc(it.category)}</span><span class="type">${esc(it.type)}</span>${it.pdf?'<span class="has-doc">📄 資料あり</span>':""}</div>`;
 
   const cats = ["すべて", ...new Set(ITEMS.map(i=>i.category))];
   let cur = "すべて", q = "";
@@ -348,6 +355,8 @@ const RANKING = [1, 2, 4, 3, 5];
     $("#m-cat").textContent = it.category;
     $("#m-title").textContent = it.title;
     $("#m-desc").innerHTML = rich(it.desc || "");
+    $("#m-doc").hidden = !it.pdf;
+    if(it.pdf) $("#m-doc").href = it.pdf;
     $("#m-note").hidden = !it.note;
     $("#m-note-text").textContent = it.note || "";
     lastFocus = document.activeElement;
