@@ -67,6 +67,7 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 .thumb[data-cat="自己理解"]{--c1:#f6f0ff;--c2:#d9c8ff;--ac:#7b4fd6;--ink:#3b1f78}
 .thumb[data-cat="セッション紹介"]{--c1:#eefbf6;--c2:#bfeedd;--ac:#14946a;--ink:#0d4d38}
 .thumb[data-cat="婚活"]{--c1:#eef5fd;--c2:#c4dcf6;--ac:#2f6fb3;--ink:#123a66}
+.thumb[data-cat="人間関係"]{--c1:#eef8f7;--c2:#bfe3e0;--ac:#1f7a80;--ink:#0f3f42}
 .thumb > img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .thumb .face{position:absolute;right:-5cqw;bottom:-6cqw;width:43cqw;aspect-ratio:1;border-radius:50%;
   background:url(images/profile.jpg) center/cover;box-shadow:0 0 0 1.2cqw #fff,0 1.5cqw 4cqw rgba(0,0,0,.18)}
@@ -98,6 +99,7 @@ article[data-cat]{border-top:4px solid var(--cc,#e6337f)}
 [data-cat="自己理解"]{--cc:#7b4fd6;--cs:#f3eeff}
 [data-cat="セッション紹介"]{--cc:#14946a;--cs:#e9f8f2}
 [data-cat="婚活"]{--cc:#2f6fb3;--cs:#eaf2fb}
+[data-cat="人間関係"]{--cc:#1f7a80;--cs:#e6f4f3}
 .tag[data-cat]{color:var(--cc);background:var(--cs)}
 .cats button[data-c]:not([data-c="すべて"])::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;background:var(--cc,#ccc)}
 .tag{display:inline-block;font-size:.75rem;color:var(--pink);background:var(--pink-soft);padding:2px 10px;border-radius:999px;font-weight:700}
@@ -217,6 +219,12 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
    url が入っている動画には、古い順に #01, #02 … の番号が自動で付きます（新しい動画はリストの一番上に追加）。
    ========================================================= */
 const ITEMS = [
+  { title:"繰り返される衝突の罠からの脱出",
+    category:"人間関係", type:"動画", duration:"", added:"2026-11-24",
+    kicker:"いつも同じケンカ", catch:"原因は\n**「構造」**？！",
+    desc:"夫とのすれ違い、家族との衝突、職場での摩擦…。\nなぜか毎回、\"同じパターン\"でぶつかってしまう。\n\n実はそれ、言葉選びの失敗ではありません。\n**「構造」**の問題なのです。\n\nこの動画では、\n感情で反応する「チャイルド」と、関係を育てられる「大人の自分」という2つの視点から、\n衝突がくり返される仕組みと、\nチャイルドに飲まれない大人のコミュニケーション（アサーション）を、\n具体的な返し方とあわせて紐解きます。\n\n「もう同じケンカをくり返したくない」\nそんな方は、ぜひ最後までご覧ください。",
+    pdf:"docs/shoutotsu-wana.pdf",
+    url:"https://youtu.be/a3huSTcDUAw", thumb:"images/thumb-shoutotsu-wana.jpg" },
   { title:"婚活のパラドックス",
     category:"婚活", type:"動画", duration:"", added:"2026-11-24",
     kicker:"頑張るほど遠のく？", catch:"婚活の\n**パラドックス**",
@@ -261,7 +269,7 @@ const ITEMS = [
     desc:"初めての方向けに、体験セッションの流れと受けた方の変化をご紹介します。", url:"" },
 ];
 /* ランキング表示する動画（上の一覧の番号。0が一番上） */
-const RANKING = [2, 3, 5, 4, 6];
+const RANKING = [3, 4, 6, 5, 7];
 </script>
 
 <script>
