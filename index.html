@@ -139,6 +139,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
 .doc-btn{display:inline-flex;align-items:center;gap:8px;margin:4px 0 16px;background:#fff;color:var(--pink);border:2px solid var(--pink);font-weight:700;padding:10px 18px;border-radius:999px;text-decoration:none}
 .doc-btn:hover{background:var(--pink-soft)}
 .doc-btn[hidden]{display:none}
+#m-docs{display:flex;flex-wrap:wrap;gap:0 10px}
 .has-doc{display:inline-block;font-size:.72rem;color:#8a6a00;background:#fff7d6;border:1px solid #f1dc8a;padding:1px 8px;border-radius:999px;margin-left:6px;font-weight:700}
 .session-cta{margin:20px 0 0;background:var(--pink-soft);border:1px solid var(--pink-line);border-radius:12px;padding:14px 16px;font-size:.9rem;line-height:1.7}
 .session-cta b{display:block;color:var(--pink);margin-bottom:6px}
@@ -198,7 +199,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
     <div class="mbody">
       <span class="tag" id="m-cat"></span>
       <h2 id="m-title"></h2>
-      <a class="doc-btn" id="m-doc" href="#" target="_blank" rel="noopener" hidden>📄 資料（PDF）を見る</a>
+      <div id="m-docs"></div>
       <p id="m-desc"></p>
       <div class="session-cta"><b>もっと深く、あなた自身の心を紐解きたい方へ</b>動画で学んだことを、あなたの恋愛や夫婦関係にあてはめて一緒に見ていく「体験セッション」を行っています。<br><a href="session/">体験セッションの詳細はこちら</a></div>
       <div class="note" id="m-note" hidden><b>⚠ ご注意</b><span id="m-note-text"></span></div>
@@ -218,11 +219,18 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
    サムネイルは kicker（左上の小さい札）と catch（大きい文字）から自動で作ります。
      catch の **ここ** は強調色＋黄色マーカー、\n は改行です（1行7文字前後・3行までがきれいです）。
    自分で作った画像を使いたいときは thumb:"画像のURL" を入れてください。
+   pdf:[{label:"資料①",url:"…"},{label:"資料②",url:"…"}] と書けば資料を複数付けられます。
    pdf:"docs/ファイル名.pdf" を入れると、動画を開いた画面に「資料（PDF）を見る」ボタンが出ます（PDFは docs フォルダに置く）。
    added:"2026-11-20" のように追加した日を入れると、14日間「NEW」が付きます。
    url が入っている動画には、古い順に #01, #02 … の番号が自動で付きます（新しい動画はリストの一番上に追加）。
    ========================================================= */
 const ITEMS = [
+  { title:"癒やしが遅いのは弱いからじゃない？ 「安全基地」が決める脳の構造と尊厳の回復",
+    category:"自己理解", type:"動画", duration:"", added:"2026-11-26",
+    kicker:"癒やしが遅いのは…", catch:"弱いからじゃなく\n**強すぎた**？！",
+    desc:"いろいろ学んで、向き合ってきたのに、なぜか心の傷が癒えない。\n「私の努力が足りないのかな」「心が弱いのかな」と、自分を責めていませんか？\n\n実は、癒やしの速さを決めているのは、気合いや心の強さではありません。\nそばに**「安全基地」**があったかどうかという、脳の構造なのです。\n\nこの動画では、\n安心して気持ちを受け止めてもらえる「二者構造」と、\n痛みを感じる役と癒やす役を、自分ひとりで同時に担ってきた「一者構造」の違いから、\n癒やしに時間がかかる本当の理由と、\nあなたが本来持っている強さ、そして尊厳を取り戻すためのワークを紐解きます。\n\n「私は弱かったのではなく、強すぎたんだ」\nそう気づきたい方は、ぜひ最後までご覧ください。",
+    pdf:[{label:"資料①を見る（PDF）", url:"docs/iyashi-a.pdf"},{label:"資料②を見る（図解版・PDF）", url:"docs/iyashi-b.pdf"}],
+    url:"https://youtu.be/N5T44QWtPeg", thumb:"images/thumb-iyashi-v6.jpg" },
   { title:"すぐイラッとするのは性格のせい？ 脳の階層でわかる「4つの怒り」の正体",
     category:"人間関係", type:"動画", duration:"", added:"2026-11-25",
     kicker:"すぐイラッとする…", catch:"脳の階層でわかる\n**怒りの正体**",
@@ -327,7 +335,7 @@ const ITEMS = [
     desc:"初めての方向けに、体験セッションの流れと受けた方の変化をご紹介します。", url:"" },
 ];
 /* ランキング表示する動画（上の一覧の番号。0が一番上） */
-const RANKING = [12, 13, 15, 14, 16];
+const RANKING = [13, 14, 16, 15, 17];
 </script>
 
 <script>
@@ -429,8 +437,9 @@ const RANKING = [12, 13, 15, 14, 16];
     $("#m-cat").textContent = it.category;
     $("#m-title").textContent = it.title;
     $("#m-desc").innerHTML = rich(it.desc || "");
-    $("#m-doc").hidden = !it.pdf;
-    if(it.pdf) $("#m-doc").href = it.pdf;
+    // pdf は1つでも、[{label,url},…] の複数でもOK
+    const docs = !it.pdf ? [] : Array.isArray(it.pdf) ? it.pdf : [{label:"資料（PDF）を見る", url:it.pdf}];
+    $("#m-docs").innerHTML = docs.map(d=>`<a class="doc-btn" href="${esc(d.url)}" target="_blank" rel="noopener">📄 ${esc(d.label)}</a>`).join("");
     $("#m-note").hidden = !it.note;
     $("#m-note-text").textContent = it.note || "";
     lastFocus = document.activeElement;
