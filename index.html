@@ -100,6 +100,7 @@ article[data-cat]{border-top:4px solid var(--cc,#e6337f)}
 [data-cat="自己理解"]{--cc:#7b4fd6;--cs:#f3eeff}
 [data-cat="セッション紹介"]{--cc:#14946a;--cs:#e9f8f2}
 [data-cat="婚活"]{--cc:#2f6fb3;--cs:#eaf2fb}
+[data-cat="お客様事例"]{--cc:#d84f72;--cs:#fdeaf0}
 [data-cat="人間関係"]{--cc:#1f7a80;--cs:#e6f4f3}
 [data-cat="心理学"]{--cc:#8a5a14;--cs:#fbf1df}
 .tag[data-cat]{color:var(--cc);background:var(--cs)}
@@ -231,6 +232,10 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 16px}
    url が入っている動画には、古い順に #01, #02 … の番号が自動で付きます（新しい動画はリストの一番上に追加）。
    ========================================================= */
 const ITEMS = [
+  { title:"お客様事例① 子どもの頃の“あの記憶”が、現実を動かしていた",
+    category:"お客様事例", type:"動画", duration:"", added:"2026-11-28",
+    desc:"実際にセッションを受けてくださったお客様の事例を、アニメーションでご紹介します。\n\n子どもの頃の体験から生まれた心の奥の思い込みが、大人になった今の現実にどのように表れていたのか。\nそして、深層意識が書き換わることで、現実がどう動き出したのかを紐解きます。\n\n※ご本人の許可をいただき、個人が特定されないよう一部を変えてお伝えしています。\n※実際にお渡しした修正文に近い内容を、短縮してご紹介しています。",
+    url:"https://youtu.be/04onE87CwEY", thumb:"images/thumb-jirei01.jpg" },
   { title:"なぜ同じ悩みをくり返すのか？ 今の現実は、過去の思考回路と「相似形」で動いている",
     category:"心理学", type:"動画", duration:"", added:"2026-11-27",
     kicker:"なぜ同じ悩みをくり返す？", catch:"今の現実は過去の\n**相似形**",
@@ -432,7 +437,7 @@ const ITEMS = [
     desc:"初めての方向けに、体験セッションの流れと受けた方の変化をご紹介します。", url:"" },
 ];
 /* ランキング表示する動画（上の一覧の番号。0が一番上） */
-const RANKING = [28, 29, 31, 30, 32];
+const RANKING = [29, 30, 32, 31, 33];
 </script>
 
 <script>
